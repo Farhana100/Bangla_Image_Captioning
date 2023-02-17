@@ -52,14 +52,22 @@ def translate(text, src='en', dest='bn'):
     return result
 
 
+def save_temp(json_obj, save_path, count):
+    save_path = Path(save_path)
+    save_path = f'{save_path.parent}/{save_path.stem}_translated_{count}.json'
+    with open(save_path, 'w', encoding='utf-8') as f:
+        json.dump(json_obj, f, indent=4)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--refine', dest='refine',
                         default=False, action='store_true')
     parser.add_argument('--translate', dest='translate',
                         default=False, action='store_true')
-    parser.add_argument('--path', dest='path', type=str,
-                        help='input json path')
+    parser.add_argument(dest='path', type=str, help='input json path')
+    parser.add_argument('--start_from', dest='start_from',
+                        default=0, type=int, help='starting index of key')
     parser.add_argument('--save_path', dest='save_path',
                         default='.', type=str, help='output json path')
 
@@ -82,12 +90,20 @@ if __name__ == '__main__':
 
         records = get_records(refined_path=refined_path)
         translated_records = records.copy()
+        records_keys = list(records.keys())
+        records_keys = records_keys[args.start_from:]
 
         print('translating...')
-        for id in tqdm(translated_records):
+        done_count = args.start_from
+        for id in tqdm(records_keys):
             caps = translated_records[id]['captions']
             new_caps = translate(caps)
             translated_records[id]['captions'] = new_caps
+            done_count += 1
+            if done_count % 500 == 0:
+                print('saving temp...')
+                save_temp(json_obj=translated_records,
+                          save_path=args.save_path, count=done_count)
         print('done')
 
         if args.save_path is None or args.save_path == "." or args.save_path == "" or args.save_path == " ":
