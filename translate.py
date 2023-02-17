@@ -27,7 +27,6 @@ def refine_json(filepath):
         records[ann['image_id']]['captions'].append(ann['caption'])
 
     # json dump records
-    refined_filepath = f'{filepath.stem}_refined.json'
     refined_filepath = f'{filepath.parent}/{filepath.stem}_refined.json'
     with open(refined_filepath, 'w', encoding='utf-8') as f:
         json.dump(records, f, indent=4)
