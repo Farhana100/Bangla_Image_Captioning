@@ -1,8 +1,20 @@
-# ml_project_image_cap
+# Bangla Image Captioning
 
-translation of image caption dataset into bengali
+This is the term project under the CSE 472 Machine Learning Sessional course offered by [Dept. of CSE, BUET](https://cse.buet.ac.bd)
 
-## usage
+## Project Members
+- [Asif Ajrof - @asifajrof](https://github.com/asifajrof)
+- [Farhana Khan - @Farhana100](https://github.com/Farhana100)
+
+## Project Details
+
+A full report on the project can be found in the [Project-Final-Presentation.pdf](/Project-Final-Presentation.pdf) file.
+
+## Bangla COCO Dataset
+
+Translation of COCO image caption dataset into bengali
+
+### usage
 
 - only refine the caption json file
 
@@ -22,7 +34,7 @@ translation of image caption dataset into bengali
   python translate.py --translate <path/to/refined/captions.json>
   ```
 
-## example
+### example
 
 ```json
 {
